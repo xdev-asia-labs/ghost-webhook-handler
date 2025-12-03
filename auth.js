@@ -72,3 +72,13 @@ export function requireAuthPage(req, res, next) {
     }
     next();
 }
+
+// Export all functions as default
+export default {
+    hashPassword,
+    verifyPassword,
+    authenticateUser,
+    registerUser,
+    requireAuth,
+    requireAuthPage
+};
