@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logs - Ghost Webhook Handler</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header', { user, active: 'logs' }) %>
+    
+    <div class="container">
+        <h1>📋 Webhook Logs</h1>
+        
+        <div class="card">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Post Title</th>
+                            <th>Status</th>
+                            <th>Time</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (logs.length > 0) { %>
+                            <% logs.forEach(log => { %>
+                                <tr>
+                                    <td>#<%= log.id %></td>
+                                    <td>
+                                        <strong><%= log.post_title %></strong>
+                                        <% if (log.post_url) { %>
+                                            <br><small><a href="<%= log.post_url %>" target="_blank"><%= log.post_url %></a></small>
+                                        <% } %>
+                                    </td>
+                                    <td>
+                                        <span class="badge badge-<%= log.status === 'success' ? 'success' : log.status === 'error' ? 'error' : 'warning' %>">
+                                            <%= log.status %>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <%= new Date(log.created_at).toLocaleString('vi-VN') %>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-secondary" onclick="viewLog(<%= log.id %>)">View</button>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No logs yet</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Pagination -->
+            <div class="pagination">
+                <% if (page > 1) { %>
+                    <a href="/admin/logs?page=<%= page - 1 %>" class="btn btn-secondary">« Previous</a>
+                <% } %>
+                <span class="page-info">Page <%= page %></span>
+                <% if (logs.length === 20) { %>
+                    <a href="/admin/logs?page=<%= page + 1 %>" class="btn btn-secondary">Next »</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Log Detail Modal -->
+    <div id="logModal" class="modal">
+        <div class="modal-content modal-large">
+            <span class="close" onclick="closeLogModal()">&times;</span>
+            <h2>Log Details</h2>
+            <div id="logDetails"></div>
+        </div>
+    </div>
+    
+    <script src="/js/logs.js"></script>
+</body>
+</html>

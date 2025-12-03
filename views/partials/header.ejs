@@ -1,0 +1,17 @@
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <h1>🚀 Ghost Webhook</h1>
+        </div>
+        
+        <nav class="nav">
+            <a href="/admin" class="nav-link <%= active === 'dashboard' ? 'active' : '' %>">Dashboard</a>
+            <a href="/admin/logs" class="nav-link <%= active === 'logs' ? 'active' : '' %>">Logs</a>
+        </nav>
+        
+        <div class="user-menu">
+            <span class="user-name">👤 <%= user.username %></span>
+            <a href="/admin/logout" class="btn btn-secondary btn-sm">Logout</a>
+        </div>
+    </div>
+</header>

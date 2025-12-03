@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Ghost Webhook Handler</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <%- include('partials/header', { user, active: 'dashboard' }) %>
+    
+    <div class="container">
+        <h1>📊 Dashboard</h1>
+        
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon">📝</div>
+                <div class="stat-content">
+                    <h3>Total Webhooks</h3>
+                    <p class="stat-number"><%= webhookStats.total || 0 %></p>
+                </div>
+            </div>
+            
+            <div class="stat-card success">
+                <div class="stat-icon">✅</div>
+                <div class="stat-content">
+                    <h3>Successful</h3>
+                    <p class="stat-number"><%= webhookStats.success || 0 %></p>
+                </div>
+            </div>
+            
+            <div class="stat-card error">
+                <div class="stat-icon">❌</div>
+                <div class="stat-content">
+                    <h3>Failed</h3>
+                    <p class="stat-number"><%= webhookStats.error || 0 %></p>
+                </div>
+            </div>
+            
+            <div class="stat-card">
+                <div class="stat-icon">🔧</div>
+                <div class="stat-content">
+                    <h3>Active Platforms</h3>
+                    <p class="stat-number"><%= configs.filter(c => c.enabled).length %></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Platform Stats -->
+        <div class="card mt-4">
+            <h2>Platform Statistics</h2>
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Total</th>
+                            <th>Success</th>
+                            <th>Error</th>
+                            <th>Success Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (notificationStats.length > 0) { %>
+                            <% notificationStats.forEach(stat => { %>
+                                <tr>
+                                    <td><strong><%= stat.platform %></strong></td>
+                                    <td><%= stat.total %></td>
+                                    <td class="text-success"><%= stat.success %></td>
+                                    <td class="text-error"><%= stat.error %></td>
+                                    <td>
+                                        <% const rate = ((stat.success / stat.total) * 100).toFixed(1); %>
+                                        <span class="badge <%= rate >= 90 ? 'badge-success' : rate >= 70 ? 'badge-warning' : 'badge-error' %>">
+                                            <%= rate %>%
+                                        </span>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="5" class="text-center text-muted">No data yet</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <!-- Configured Platforms -->
+        <div class="card mt-4">
+            <div class="card-header">
+                <h2>Configured Platforms</h2>
+                <button class="btn btn-primary" onclick="showAddConfigModal()">+ Add Platform</button>
+            </div>
+            
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Platform</th>
+                            <th>Status</th>
+                            <th>Configuration</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% if (configs.length > 0) { %>
+                            <% configs.forEach(config => { %>
+                                <% const data = JSON.parse(config.config_data); %>
+                                <tr>
+                                    <td><strong><%= config.platform %></strong></td>
+                                    <td>
+                                        <label class="switch">
+                                            <input type="checkbox" 
+                                                   <%= config.enabled ? 'checked' : '' %>
+                                                   onchange="toggleConfig('<%= config.platform %>', this.checked)">
+                                            <span class="slider"></span>
+                                        </label>
+                                    </td>
+                                    <td class="config-preview">
+                                        <% Object.keys(data).forEach(key => { %>
+                                            <div><small><strong><%= key %>:</strong> <%= String(data[key]).substring(0, 30) %>...</small></div>
+                                        <% }) %>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-secondary" onclick="editConfig('<%= config.platform %>')">Edit</button>
+                                        <button class="btn btn-sm btn-danger" onclick="deleteConfig('<%= config.platform %>')">Delete</button>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } else { %>
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">No platforms configured</td>
+                            </tr>
+                        <% } %>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Add/Edit Config Modal -->
+    <div id="configModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeConfigModal()">&times;</span>
+            <h2 id="modalTitle">Add Platform</h2>
+            <form id="configForm">
+                <div class="form-group">
+                    <label for="platform">Platform</label>
+                    <select id="platform" name="platform" required>
+                        <option value="">Select platform</option>
+                        <option value="telegram">Telegram</option>
+                        <option value="facebook">Facebook</option>
+                        <option value="discord">Discord</option>
+                        <option value="slack">Slack</option>
+                    </select>
+                </div>
+                
+                <div id="configFields"></div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeConfigModal()">Cancel</button>
+                    <button type="submit" class="btn btn-primary">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <script src="/js/dashboard.js"></script>
+</body>
+</html>
