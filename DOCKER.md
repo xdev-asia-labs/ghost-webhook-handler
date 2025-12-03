@@ -5,8 +5,8 @@
 ### 1. Pull Latest Image
 
 ```bash
-# Pull the latest pre-built image from Docker Hub
-docker pull tdduydev/ghost-webhook-handler:latest
+# Pull the latest pre-built image from GitHub Container Registry
+docker pull ghcr.io/xdev-asia-labs/ghost-webhook-handler:latest
 ```
 
 ### 2. Create Environment File

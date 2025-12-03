@@ -1,34 +1,27 @@
 # 🔑 GitHub Actions Setup - Quick Guide
 
 This repository is configured to automatically build and push Docker images to:
-**`tdduydev/ghost-webhook-handler`** on Docker Hub.
+- **Primary:** `ghcr.io/xdev-asia-labs/ghost-webhook-handler` (GitHub Container Registry)
+- **Secondary:** `tdduydev/ghost-webhook-handler` (Docker Hub - optional)
 
-## ⚡ Quick Setup (2 Steps)
+## ⚡ No Setup Required!
 
-### Step 1: Create Docker Hub Access Token
+GitHub Container Registry push works automatically using `GITHUB_TOKEN` - no additional secrets needed!
+
+### Optional: Add Docker Hub Support
+
+If you also want to push to Docker Hub:
 
 1. Login to [Docker Hub](https://hub.docker.com) with username `tdduydev`
-2. Click profile icon (top right) > **Account Settings**
-3. Go to **Security** tab
-4. Click **New Access Token**
-5. Settings:
-   - **Description:** `GitHub Actions - ghost-webhook-handler`
-   - **Access permissions:** **Read, Write, Delete**
-6. Click **Generate**
-7. **Copy the token immediately** (format: `dckr_pat_xxxxx...`)
+2. Account Settings > Security > New Access Token
+3. Permissions: **Read, Write, Delete**
+4. Copy the token
+5. Add GitHub Secret:
+   - Go to repository Settings > Secrets and variables > Actions
+   - Name: `DOCKER_TOKEN`
+   - Value: Your Docker Hub token
 
-### Step 2: Add GitHub Secret
-
-1. Go to this GitHub repository
-2. Click **Settings** (top menu)
-3. Click **Secrets and variables** > **Actions** (left sidebar)
-4. Click **New repository secret** button
-5. Add secret:
-   - **Name:** `DOCKER_TOKEN`
-   - **Secret:** Paste the token from Step 1
-6. Click **Add secret**
-
-## ✅ That's It!
+## ✅ Already Working!
 
 Now every time you push code to `main` or `master` branch, GitHub Actions will automatically:
 
@@ -96,7 +89,10 @@ This will create tags:
 Once the workflow completes:
 
 ```bash
-# Pull from Docker Hub
+# Pull from GitHub Container Registry (primary)
+docker pull ghcr.io/xdev-asia-labs/ghost-webhook-handler:latest
+
+# Or pull from Docker Hub (if configured)
 docker pull tdduydev/ghost-webhook-handler:latest
 
 # Or just use docker-compose (already configured)

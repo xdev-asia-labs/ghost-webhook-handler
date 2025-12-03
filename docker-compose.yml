@@ -34,10 +34,13 @@ services:
       retries: 5
 
   app:
-    # Option 1: Use pre-built image from Docker Hub (recommended)
-    image: tdduydev/ghost-webhook-handler:latest
+    # Option 1: Use pre-built image from GitHub Container Registry (recommended)
+    image: ghcr.io/xdev-asia-labs/ghost-webhook-handler:latest
 
-    # Option 2: Build locally (uncomment line below and comment image above)
+    # Option 2: Use pre-built image from Docker Hub
+    # image: tdduydev/ghost-webhook-handler:latest
+
+    # Option 3: Build locally (uncomment line below and comment images above)
     # build: .
 
     container_name: ghost-webhook-app

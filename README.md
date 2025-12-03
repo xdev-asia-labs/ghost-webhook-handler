@@ -337,17 +337,17 @@ GROUP BY platform;
 
 ### Option 1: Docker (Recommended)
 
-**Using pre-built image from Docker Hub:**
+**Using pre-built image from GitHub Container Registry:**
 
 ```bash
 # 1. Clone and setup
-git clone <your-repo>
+git clone https://github.com/xdev-asia-labs/ghost-webhook-handler.git
 cd ghost-webhook-handler
 cp .env.example .env
 nano .env  # Edit configuration
 
-# 2. Pull latest image
-docker pull tdduydev/ghost-webhook-handler:latest
+# 2. Pull latest image (optional, docker-compose will pull automatically)
+docker pull ghcr.io/xdev-asia-labs/ghost-webhook-handler:latest
 
 # 3. Start all services (MySQL + App)
 docker-compose up -d
