@@ -2,79 +2,79 @@ import assert from 'assert';
 // import request from 'supertest';
 
 describe('Webhook Handler Tests', () => {
-  let app;
+    let app;
 
-  before(() => {
-    // Mock environment
-    process.env.NODE_ENV = 'test';
-    process.env.DB_HOST = 'localhost';
-    process.env.DB_USER = 'test';
-    process.env.DB_PASSWORD = 'test';
-    process.env.DB_NAME = 'test_db';
-    process.env.SESSION_SECRET = 'test-secret';
-    
-    // Load app (you might need to modify server.js to export app)
-    // app = require('../server');
-  });
+    before(() => {
+        // Mock environment
+        process.env.NODE_ENV = 'test';
+        process.env.DB_HOST = 'localhost';
+        process.env.DB_USER = 'test';
+        process.env.DB_PASSWORD = 'test';
+        process.env.DB_NAME = 'test_db';
+        process.env.SESSION_SECRET = 'test-secret';
 
-  describe('POST /webhook/ghost', () => {
-    it('should accept valid Ghost webhook payload', async () => {
-      const payload = {
-        post: {
-          current: {
-            id: '123',
-            title: 'Test Post',
-            url: 'https://example.com/test-post',
-            feature_image: 'https://example.com/image.jpg',
-            custom_excerpt: 'Test excerpt'
-          }
-        }
-      };
-
-      // Mock test - requires app to be properly exported
-      // const res = await request(app)
-      //   .post('/webhook/ghost')
-      //   .send(payload)
-      //   .expect(200);
-      
-      // assert.ok(res.body.success);
-      assert.ok(true); // Placeholder
+        // Load app (you might need to modify server.js to export app)
+        // app = require('../server');
     });
 
-    it('should reject invalid payload', async () => {
-      const payload = {
-        invalid: 'data'
-      };
+    describe('POST /webhook/ghost', () => {
+        it('should accept valid Ghost webhook payload', async () => {
+            const payload = {
+                post: {
+                    current: {
+                        id: '123',
+                        title: 'Test Post',
+                        url: 'https://example.com/test-post',
+                        feature_image: 'https://example.com/image.jpg',
+                        custom_excerpt: 'Test excerpt'
+                    }
+                }
+            };
 
-      // Mock test
-      // const res = await request(app)
-      //   .post('/webhook/ghost')
-      //   .send(payload)
-      //   .expect(400);
-      assert.ok(true); // Placeholder
+            // Mock test - requires app to be properly exported
+            // const res = await request(app)
+            //   .post('/webhook/ghost')
+            //   .send(payload)
+            //   .expect(200);
+
+            // assert.ok(res.body.success);
+            assert.ok(true); // Placeholder
+        });
+
+        it('should reject invalid payload', async () => {
+            const payload = {
+                invalid: 'data'
+            };
+
+            // Mock test
+            // const res = await request(app)
+            //   .post('/webhook/ghost')
+            //   .send(payload)
+            //   .expect(400);
+            assert.ok(true); // Placeholder
+        });
+
+        it('should handle missing post data', async () => {
+            const payload = {};
+
+            // Mock test
+            // const res = await request(app)
+            //   .post('/webhook/ghost')
+            //   .send(payload)
+            //   .expect(400);
+            assert.ok(true); // Placeholder
+        });
     });
 
-    it('should handle missing post data', async () => {
-      const payload = {};
+    describe('Health Check', () => {
+        it('should return healthy status', async () => {
+            // Mock test
+            // const res = await request(app)
+            //   .get('/health')
+            //   .expect(200);
 
-      // Mock test
-      // const res = await request(app)
-      //   .post('/webhook/ghost')
-      //   .send(payload)
-      //   .expect(400);
-      assert.ok(true); // Placeholder
+            // assert.strictEqual(res.body.status, 'ok');
+            assert.ok(true); // Placeholder
+        });
     });
-  });
-
-  describe('Health Check', () => {
-    it('should return healthy status', async () => {
-      // Mock test
-      // const res = await request(app)
-      //   .get('/health')
-      //   .expect(200);
-      
-      // assert.strictEqual(res.body.status, 'ok');
-      assert.ok(true); // Placeholder
-    });
-  });
 });
