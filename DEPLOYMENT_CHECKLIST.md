@@ -101,12 +101,14 @@ pm2 startup
 ### 1. Configure Webhook Endpoint
 
 **If using ngrok (development):**
+
 ```bash
 ngrok http 3000
 # Use: https://xxxx.ngrok.io/webhook/ghost
 ```
 
 **If using domain (production):**
+
 ```
 https://your-domain.com/webhook/ghost
 ```
@@ -143,6 +145,7 @@ https://your-domain.com/webhook/ghost
 ### 2. Add Platforms
 
 **Telegram:**
+
 - [ ] Click "Add Platform"
 - [ ] Platform: `telegram`
 - [ ] Bot Token: `123456789:ABCdef...`
@@ -151,6 +154,7 @@ https://your-domain.com/webhook/ghost
 - [ ] Test by publishing Ghost post
 
 **Facebook:**
+
 - [ ] Click "Add Platform"
 - [ ] Platform: `facebook`
 - [ ] Page ID: `123456789`
