@@ -2,11 +2,11 @@ name: Security Scan
 
 on:
   push:
-    branches: [ main, master ]
+    branches: [main, master]
   pull_request:
-    branches: [ main, master ]
+    branches: [main, master]
   schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sunday
+    - cron: "0 0 * * 0" # Weekly on Sunday
   workflow_dispatch:
 
 jobs:
@@ -42,16 +42,16 @@ jobs:
       - name: Run Trivy vulnerability scanner (Filesystem)
         uses: aquasecurity/trivy-action@master
         with:
-          scan-type: 'fs'
-          scan-ref: '.'
-          format: 'sarif'
-          output: 'trivy-fs-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          scan-type: "fs"
+          scan-ref: "."
+          format: "sarif"
+          output: "trivy-fs-results.sarif"
+          severity: "CRITICAL,HIGH"
 
       - name: Upload Trivy results to GitHub Security
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-fs-results.sarif'
+          sarif_file: "trivy-fs-results.sarif"
         continue-on-error: true
 
   docker-scan:
@@ -70,15 +70,15 @@ jobs:
       - name: Run Trivy vulnerability scanner (Docker)
         uses: aquasecurity/trivy-action@master
         with:
-          image-ref: 'local-scan-image:latest'
-          format: 'sarif'
-          output: 'trivy-docker-results.sarif'
-          severity: 'CRITICAL,HIGH'
+          image-ref: "local-scan-image:latest"
+          format: "sarif"
+          output: "trivy-docker-results.sarif"
+          severity: "CRITICAL,HIGH"
 
       - name: Upload Docker scan results
         uses: github/codeql-action/upload-sarif@v3
         with:
-          sarif_file: 'trivy-docker-results.sarif'
+          sarif_file: "trivy-docker-results.sarif"
         continue-on-error: true
 
   codeql:

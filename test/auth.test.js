@@ -1,6 +1,6 @@
-const assert = require('assert');
-const bcrypt = require('bcrypt');
-const auth = require('../auth');
+import assert from 'assert';
+import bcrypt from 'bcrypt';
+import auth from '../auth.js';
 
 describe('Authentication Tests', () => {
     describe('hashPassword', () => {
@@ -29,7 +29,6 @@ describe('Authentication Tests', () => {
         });
 
         it('should return false for wrong password', async () => {
-            // Assuming there's a test user in database
             const result = await auth.authenticateUser('admin', 'wrongpassword');
             assert.strictEqual(result, false);
         });
